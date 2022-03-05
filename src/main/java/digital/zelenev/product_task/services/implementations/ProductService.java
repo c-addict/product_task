@@ -9,6 +9,7 @@ import digital.zelenev.product_task.exceptions.ResourceNotFoundException;
 import digital.zelenev.product_task.services.ICrudService;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,15 +22,18 @@ public class ProductService implements ICrudService<ProductDto> {
     private final ProductRepository productRepository;
     private final IMapper<ProductDto, Product> toProductDtoMapper;
     private final IMapper<Product, ProductDto> toProductMapper;
+    private final Environment environment;
 
 
     public ProductService(ProductRepository productRepository,
                           @Qualifier("toProductDtoMapper") IMapper<ProductDto, Product> toProductDtoMapper,
-                          @Qualifier("toProductMapper") IMapper<Product, ProductDto> toProductMapper
+                          @Qualifier("toProductMapper") IMapper<Product, ProductDto> toProductMapper,
+                          Environment environment
     ) {
         this.productRepository = productRepository;
         this.toProductDtoMapper = toProductDtoMapper;
         this.toProductMapper = toProductMapper;
+        this.environment = environment;
     }
 
     @Override
@@ -84,9 +88,15 @@ public class ProductService implements ICrudService<ProductDto> {
 
     private Product createRandomProduct(Integer id) {
         Product product = new Product();
-        product.setId(id);
         product.setName(String.format("Product %d", id));
-        product.setPrice(RandomUtils.nextInt(1, 5001));
+        product.setPrice(getRandomProductPrice());
         return product;
+    }
+
+    private int getRandomProductPrice() {
+        return RandomUtils.nextInt(
+                Integer.parseInt(environment.getProperty("price.min")),
+                Integer.parseInt(environment.getProperty("price.max"))
+        );
     }
 }
