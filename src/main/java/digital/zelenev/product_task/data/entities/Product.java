@@ -1,7 +1,5 @@
 package digital.zelenev.product_task.data.entities;
 
-import digital.zelenev.product_task.annotations.InjectRandomInt;
-
 import javax.persistence.*;
 
 @Entity(
@@ -29,10 +27,8 @@ public class Product {
     private String name;
 
     @Column(
-            name = "price",
-            nullable = false
+            name = "price"
     )
-    @InjectRandomInt(min = 1, max = 5000)
     private Integer price;
 
     /**

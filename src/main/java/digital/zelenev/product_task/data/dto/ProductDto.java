@@ -2,9 +2,12 @@ package digital.zelenev.product_task.data.dto;
 
 public final class ProductDto {
 
-    private final Integer id;
-    private final String name;
-    private final Integer price;
+    private Integer id;
+    private String name;
+    private Integer price;
+
+    public ProductDto() {
+    }
 
     public ProductDto(Integer id, String name, Integer price) {
         this.id = id;
@@ -16,11 +19,23 @@ public final class ProductDto {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getPrice() {
         return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

@@ -7,12 +7,15 @@ import digital.zelenev.product_task.data.mappers.IMapper;
 import digital.zelenev.product_task.exceptions.ResourceAlreadyExistsException;
 import digital.zelenev.product_task.exceptions.ResourceNotFoundException;
 import digital.zelenev.product_task.services.ICrudService;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service("productService")
+@Transactional
 public class ProductService implements ICrudService<ProductDto> {
 
     private final ProductRepository productRepository;
@@ -66,9 +69,7 @@ public class ProductService implements ICrudService<ProductDto> {
         if (productOptional.isEmpty())
             throw new ResourceNotFoundException(String.format("Product with id: %d doesn't exists.", productDto.getId()));
         else {
-            Product foundProduct = productOptional.get();
-            foundProduct.setName(productDto.getName());
-            foundProduct.setPrice(productDto.getPrice());
+            productRepository.updateById(productDto.getId(), productDto.getName(), productDto.getPrice());
         }
     }
 
@@ -85,6 +86,7 @@ public class ProductService implements ICrudService<ProductDto> {
         Product product = new Product();
         product.setId(id);
         product.setName(String.format("Product %d", id));
+        product.setPrice(RandomUtils.nextInt(1, 5001));
         return product;
     }
 }
