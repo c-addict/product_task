@@ -11,12 +11,9 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service("productService")
-@Transactional
 public class ProductService implements ICrudService<ProductDto> {
 
     private final ProductRepository productRepository;
@@ -73,7 +70,10 @@ public class ProductService implements ICrudService<ProductDto> {
         if (productOptional.isEmpty())
             throw new ResourceNotFoundException(String.format("Product with id: %d doesn't exists.", productDto.getId()));
         else {
-            productRepository.updateById(productDto.getId(), productDto.getName(), productDto.getPrice());
+            Product foundProduct = productOptional.get();
+            foundProduct.setName(productDto.getName());
+            foundProduct.setPrice(productDto.getPrice());
+            productRepository.save(foundProduct);
         }
     }
 
