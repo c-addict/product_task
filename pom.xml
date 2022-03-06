@@ -16,8 +16,9 @@
         <spring.boot.starter.web.version>2.6.4</spring.boot.starter.web.version>
         <spring.boot.starter.test.version>2.6.4</spring.boot.starter.test.version>
         <spring.boot.starter.data.jpa.version>2.6.4</spring.boot.starter.data.jpa.version>
-        <database.h2.version>1.4.197</database.h2.version>
+        <database.h2.version>2.1.210</database.h2.version>
         <apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
+        <spring.boot.starter.security.version>2.6.4</spring.boot.starter.security.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.boot.starter.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
